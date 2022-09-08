@@ -1,8 +1,5 @@
-import { Feather } from "@expo/vector-icons";
-import { ScrollView } from "react-native";
-
-import { RFValue } from "react-native-responsive-fontsize";
 import { HighlightCard } from "../../components/HighlightCard";
+import { TransactionCard } from "../../components/TransactionCard";
 
 import {
   Container,
@@ -15,6 +12,8 @@ import {
   UserName,
   Icon,
   HighlightCards,
+  Transactions,
+  Title,
 } from "./styles";
 
 function Dashboard() {
@@ -59,6 +58,12 @@ function Dashboard() {
           lastTransaction="01 à 16 de abril"
         />
       </HighlightCards>
+
+      <Transactions>
+        <Title>Listagem</Title>
+
+        <TransactionCard />
+      </Transactions>
     </Container>
   );
 }
