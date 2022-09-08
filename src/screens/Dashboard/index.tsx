@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import { ScrollView } from "react-native";
 
 import { RFValue } from "react-native-responsive-fontsize";
 import { HighlightCard } from "../../components/HighlightCard";
@@ -13,6 +14,7 @@ import {
   UserGreeting,
   UserName,
   Icon,
+  HighlightCards,
 } from "./styles";
 
 function Dashboard() {
@@ -37,7 +39,12 @@ function Dashboard() {
         </UserWrapper>
       </Header>
 
-      <HighlightCard />
+      <HighlightCards>
+        <HighlightCard />
+        <HighlightCard />
+        <HighlightCard />
+        <HighlightCard />
+      </HighlightCards>
     </Container>
   );
 }
