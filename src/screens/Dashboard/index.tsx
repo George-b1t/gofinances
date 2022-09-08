@@ -1,12 +1,17 @@
+import { Feather } from "@expo/vector-icons";
+
+import { RFValue } from "react-native-responsive-fontsize";
+
 import {
   Container,
   Header,
+  UserWrapper,
   UserInfo,
   Photo,
   User,
   UserGreeting,
   UserName,
-  UserWrapper,
+  Icon,
 } from "./styles";
 
 function Dashboard() {
@@ -26,6 +31,8 @@ function Dashboard() {
               <UserName>George</UserName>
             </User>
           </UserInfo>
+
+          <Icon name="power" />
         </UserWrapper>
       </Header>
     </Container>
