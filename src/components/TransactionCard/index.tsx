@@ -9,20 +9,38 @@ import {
   Date,
 } from "./styles";
 
-function TransactionCard() {
+interface Category {
+  name: string;
+  icon: string;
+}
+
+interface Data {
+  title: string;
+  amount: string;
+  category: Category;
+  date: string;
+}
+
+interface Props {
+  data: Data;
+}
+
+function TransactionCard({ data }: Props) {
+  const { title, amount, category, date } = data;
+
   return (
     <Container>
-      <Title>Desenvolvimento de site</Title>
+      <Title>{title}</Title>
 
-      <Amount>R$ 12.000,00</Amount>
+      <Amount>{amount}</Amount>
 
       <Footer>
         <Category>
-          <Icon name="dollar-sign" />
-          <CategoryName>Vendas</CategoryName>
+          <Icon name={category.icon} />
+          <CategoryName>{category.name}</CategoryName>
         </Category>
 
-        <Date>13/04/2020</Date>
+        <Date>{date}</Date>
       </Footer>
     </Container>
   );
