@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 
 import { RFValue } from "react-native-responsive-fontsize";
+import { HighlightCard } from "../../components/HighlightCard";
 
 import {
   Container,
@@ -35,6 +36,8 @@ function Dashboard() {
           <Icon name="power" />
         </UserWrapper>
       </Header>
+
+      <HighlightCard />
     </Container>
   );
 }
