@@ -7,7 +7,6 @@ export const Container = styled.View`
   background: ${({ theme }) => theme.colors.shape};
 
   width: ${RFValue(300)}px;
-  height: ${RFValue(150)}px;
   border-radius: 5px;
 
   padding: 19px 23px;
@@ -42,6 +41,8 @@ export const Amount = styled.Text`
   line-height: 50px;
 
   color: ${({ theme }) => theme.colors.text_dark};
+
+  margin-top: 38px;
 `;
 
 export const LastTransaction = styled.Text`
