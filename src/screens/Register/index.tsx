@@ -128,13 +128,13 @@ function Register() {
             <CategorySelect
               category={category}
               setCategory={setCategory}
-              closeSelectCategory={handleCloseSelectCategoryModal}
+              closeSelectCategory={() => handleCloseSelectCategoryModal()}
             />
           </Modal>
 
           <Button
             title="Enviar"
-            onPress={handleSubmit(handleRegister as any)}
+            onPress={handleSubmit(handleRegister as any) as any}
           />
         </Form>
       </Container>
