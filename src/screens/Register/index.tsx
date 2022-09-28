@@ -134,7 +134,7 @@ function Register() {
 
           <Button
             title="Enviar"
-            onPress={handleSubmit(handleRegister as any) as any}
+            onPress={handleSubmit(handleRegister as any)}
           />
         </Form>
       </Container>
