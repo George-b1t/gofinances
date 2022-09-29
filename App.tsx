@@ -10,8 +10,6 @@ import {
 
 import theme from "./src/global/styles/theme";
 
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { AppRoutes } from "./src/routes/app.routes";
 
@@ -29,9 +27,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <AppRoutes />
-        </GestureHandlerRootView>
+        <AppRoutes />
       </NavigationContainer>
     </ThemeProvider>
   );
