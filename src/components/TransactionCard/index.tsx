@@ -11,7 +11,7 @@ import {
 } from "./styles";
 
 export interface TransactionCardProps {
-  type: "up" | "down";
+  type: "positive" | "negative";
   name: string;
   amount: string;
   category: string;
@@ -30,7 +30,7 @@ function TransactionCard({ data }: Props) {
       <Title>{data.name}</Title>
 
       <Amount type={data.type}>
-        {data.type === "down" && "- "}
+        {data.type === "negative" && "- "}
         {data.amount}
       </Amount>
 

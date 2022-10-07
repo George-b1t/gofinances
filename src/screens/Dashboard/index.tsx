@@ -30,8 +30,28 @@ export interface DataListProps extends TransactionCardProps {
   id: string;
 }
 
+interface HighlightProps {
+  amount: string;
+}
+
+interface HighlightData {
+  entries: HighlightProps;
+  expensive: HighlightProps;
+  total: HighlightProps;
+}
+
 function Dashboard() {
-  const [data, setData] = useState<DataListProps[]>([]);
+  const [transactions, setTransactions] = useState<DataListProps[]>([]);
+  const [highlightData, setHighlightData] = useState<HighlightData>(
+    {} as HighlightData
+  );
+
+  function parseToLocalAmount(amount: number): string {
+    return amount.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
 
   async function loadTransactions() {
     const dataKey = "@gofinances:transactions";
@@ -39,12 +59,18 @@ function Dashboard() {
 
     const transactions = response ? JSON.parse(response) : [];
 
+    let entriesTotal = 0;
+    let expensiveTotal = 0;
+
     const transactionsFormatted: DataListProps[] = transactions.map(
       (item: DataListProps) => {
-        const amount = Number(item.amount).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
+        if (item.type === "positive") {
+          entriesTotal += Number(item.amount);
+        } else {
+          expensiveTotal += Number(item.amount);
+        }
+
+        const amount = parseToLocalAmount(Number(item.amount));
 
         const date = Intl.DateTimeFormat("pt-BR", {
           day: "2-digit",
@@ -63,16 +89,31 @@ function Dashboard() {
       }
     );
 
-    setData(transactionsFormatted);
+    const total = entriesTotal - expensiveTotal;
+
+    setTransactions(transactionsFormatted);
+    setHighlightData({
+      entries: {
+        amount: parseToLocalAmount(entriesTotal),
+      },
+      expensive: {
+        amount: parseToLocalAmount(expensiveTotal),
+      },
+      total: {
+        amount: parseToLocalAmount(total),
+      },
+    });
   }
 
   useEffect(() => {
     loadTransactions();
   }, []);
 
-  useFocusEffect(useCallback(() => {
-    loadTransactions();
-  }, []))
+  useFocusEffect(
+    useCallback(() => {
+      loadTransactions();
+    }, [])
+  );
 
   return (
     <Container>
@@ -101,19 +142,19 @@ function Dashboard() {
         <HighlightCard
           type="up"
           title="Entradas"
-          amount="R$ 17.400,00"
+          amount={highlightData.entries?.amount}
           lastTransaction="Última entrada dia 13 de abril"
         />
         <HighlightCard
           type="down"
           title="Saídas"
-          amount="R$ 1.259,00"
+          amount={highlightData.expensive?.amount}
           lastTransaction="Última entrada dia 03 de abril"
         />
         <HighlightCard
           type="total"
           title="Total"
-          amount="R$ 16.141,00"
+          amount={highlightData.total?.amount}
           lastTransaction="01 à 16 de abril"
         />
       </HighlightCards>
@@ -122,7 +163,7 @@ function Dashboard() {
         <Title>Listagem</Title>
 
         <TransactionList
-          data={data}
+          data={transactions}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <TransactionCard data={item} />}
         />
