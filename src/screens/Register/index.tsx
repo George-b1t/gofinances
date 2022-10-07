@@ -59,7 +59,7 @@ function Register() {
     name: "Categoria",
   });
 
-  function handleTransactionsTypeSelect(type: "up" | "down") {
+  function handleTransactionsTypeSelect(type: "positive" | "negative") {
     setTransactionType(type);
   }
 
@@ -141,15 +141,15 @@ function Register() {
             <TransactionsTypes>
               <TransactionTypeButton
                 title="Income"
-                type="up"
-                onPress={() => handleTransactionsTypeSelect("up")}
-                isActive={transactionType === "up"}
+                type="positive"
+                onPress={() => handleTransactionsTypeSelect("positive")}
+                isActive={transactionType === "positive"}
               />
               <TransactionTypeButton
                 title="Outcome"
-                type="down"
-                onPress={() => handleTransactionsTypeSelect("down")}
-                isActive={transactionType === "down"}
+                type="negative"
+                onPress={() => handleTransactionsTypeSelect("negative")}
+                isActive={transactionType === "negative"}
               />
             </TransactionsTypes>
 
