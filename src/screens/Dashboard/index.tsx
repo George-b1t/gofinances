@@ -36,6 +36,7 @@ export interface DataListProps extends TransactionCardProps {
 
 interface HighlightProps {
   amount: string;
+  lastTransaction: string;
 }
 
 interface HighlightData {
@@ -51,6 +52,31 @@ function Dashboard() {
   const [highlightData, setHighlightData] = useState<HighlightData>(
     {} as HighlightData
   );
+
+  function getLastTransactionDate(
+    collection: DataListProps[],
+    type: "positive" | "negative"
+  ) {
+    const lastTransaction = new Date(
+      Math.max.apply(
+        Math,
+        collection
+          .filter((transaction) => transaction.type === type)
+          .map((transaction) => new Date(transaction.date).getTime())
+      )
+    );
+
+    return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
+      "pt-BR",
+      { month: "long" }
+    )}`;
+
+    // return Intl.DateTimeFormat("pt-BR", {
+    //   day: "2-digit",
+    //   month: "2-digit",
+    //   year: "2-digit",
+    // }).format(new Date(lastTransaction));
+  }
 
   function parseToLocalAmount(amount: number): string {
     return amount.toLocaleString("pt-BR", {
@@ -98,15 +124,31 @@ function Dashboard() {
     const total = entriesTotal - expensiveTotal;
 
     setTransactions(transactionsFormatted);
+
+    const lastTransactionEntries = getLastTransactionDate(
+      transactions,
+      "positive"
+    );
+
+    const lastTransactionExpensives = getLastTransactionDate(
+      transactions,
+      "negative"
+    );
+
+    const totalInterval = `01 a ${lastTransactionExpensives}`;
+
     setHighlightData({
       entries: {
         amount: parseToLocalAmount(entriesTotal),
+        lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
       },
       expensive: {
         amount: parseToLocalAmount(expensiveTotal),
+        lastTransaction: `Última saída dia ${lastTransactionExpensives}`,
       },
       total: {
         amount: parseToLocalAmount(total),
+        lastTransaction: totalInterval,
       },
     });
 
@@ -157,19 +199,19 @@ function Dashboard() {
               type="up"
               title="Entradas"
               amount={highlightData.entries?.amount}
-              lastTransaction="Última entrada dia 13 de abril"
+              lastTransaction={highlightData.entries?.lastTransaction}
             />
             <HighlightCard
               type="down"
               title="Saídas"
               amount={highlightData.expensive?.amount}
-              lastTransaction="Última entrada dia 03 de abril"
+              lastTransaction={highlightData.entries?.lastTransaction}
             />
             <HighlightCard
               type="total"
               title="Total"
               amount={highlightData.total?.amount}
-              lastTransaction="01 à 16 de abril"
+              lastTransaction={highlightData.total?.lastTransaction}
             />
           </HighlightCards>
 
