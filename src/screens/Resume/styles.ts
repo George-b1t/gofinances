@@ -24,3 +24,9 @@ export const Title = styled.Text`
 
   font-size: ${RFValue(18)}px;
 `;
+
+export const Content = styled.ScrollView.attrs({
+  contentContainerStyle: { padding: 24 },
+})`
+  flex: 1;
+`;
