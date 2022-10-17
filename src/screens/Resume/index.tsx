@@ -14,9 +14,11 @@ import {
   MonthSelectIcon,
   Month,
 } from "./styles";
-import { RFValue } from "react-native-responsive-fontsize";
 import { useTheme } from "styled-components";
+import { addMonths, format } from "date-fns";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { RFValue } from "react-native-responsive-fontsize";
+import { ptBR } from "date-fns/locale";
 
 interface TransactionData {
   type: "positive" | "negative";
@@ -38,9 +40,15 @@ interface CategoryData {
 function Resume() {
   const theme = useTheme();
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
     []
   );
+
+  function handleDateChange(action: "next" | "prev") {
+    const newDate = addMonths(selectedDate, action === "next" ? 1 : -1);
+    setSelectedDate(newDate);
+  }
 
   async function loadData() {
     const dataKey = "@gofinances:transactions";
@@ -50,7 +58,10 @@ function Resume() {
       : [];
 
     const expensives = responseFormatted.filter(
-      (expensive) => expensive.type === "negative"
+      (expensive) =>
+        expensive.type === "negative" &&
+        new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
+        new Date(expensive.date).getFullYear() === selectedDate.getFullYear()
     );
 
     const expensivesTotal = expensives.reduce(
@@ -95,7 +106,7 @@ function Resume() {
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <Container>
@@ -111,13 +122,13 @@ function Resume() {
         }}
       >
         <MonthSelect>
-          <MonthSelectButton>
+          <MonthSelectButton onPress={() => handleDateChange("prev")}>
             <MonthSelectIcon name="chevron-left" />
           </MonthSelectButton>
 
-          <Month>Maio</Month>
+          <Month>{format(selectedDate, "MMMM, yyyy", { locale: ptBR })}</Month>
 
-          <MonthSelectButton>
+          <MonthSelectButton onPress={() => handleDateChange("next")}>
             <MonthSelectIcon name="chevron-right" />
           </MonthSelectButton>
         </MonthSelect>
