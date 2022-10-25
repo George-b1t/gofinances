@@ -7,11 +7,13 @@ import {
   Title,
   SignInTitle,
   Footer,
+  FooterWrapper,
 } from "./styles";
 
 import AppleSvg from "../../assets/apple.svg";
 import GoogleSvg from "../../assets/google.svg";
 import LogoSvg from "../../assets/logo.svg";
+import { SignInSocialButton } from "../../components/SignInSocialButton";
 
 function SignIn() {
   return (
@@ -28,7 +30,13 @@ function SignIn() {
         <SignInTitle>Faça seu login com{"\n"}uma das contas abaixo</SignInTitle>
       </Header>
 
-      <Footer></Footer>
+      <Footer>
+        <FooterWrapper>
+          <SignInSocialButton title="Entrar com Google" svg={GoogleSvg} />
+
+          <SignInSocialButton title="Entrar com Apple" svg={AppleSvg} />
+        </FooterWrapper>
+      </Footer>
     </Container>
   );
 }
